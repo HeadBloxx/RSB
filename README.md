@@ -111,4 +111,4 @@ end)
 ```
 
 And there you go, you now have a script that will get HeadBloxx's ``UserId`` whilst HeadBloxx is in another server.</br>
-Although Identifiers prove more valuable in complex scenarios, I've chosen this simple example to introduce the module.
+Although ``Identifiers`` prove more valuable in complex scenarios, I've chosen this simple example to introduce the module.
