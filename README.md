@@ -11,6 +11,8 @@ There are __two__ main ways of installing this module.
 1. You can get it from the Marketplace, and just insert it into ``ReplicatedStorage`` or ``ServerStorage``, or
 2. You can install the ``.rbxm`` or the ``.rbxl``, and go on from there
 
+Make sure to have ``Subscription.lua`` and ``Listener.lua`` parented to ``CrossServerRemoteFunction.lua``
+
 ## Getting Started
 
 Let's write some code that will allow us to get the ``UserId`` of a player in another server by the player's name.
