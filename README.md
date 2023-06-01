@@ -20,7 +20,7 @@ ___Before proceeding you should familiarize yourself with:___</br></br>
 
 ## Installation
 
-Download the ``RobloxServerBridge.rbxm`` and drag it into your studio window. You should preferrably place them inside ``ReplicatedStorage`` or ``ServerStorage``
+Download the ``RobloxServerBridge.rbxm`` or ``RobloxServerBridge.rbxl``, or get it from the [Marketplace](https://www.roblox.com/library/13618859786/RobloxServerBridge) and insert it in your game. You should preferrably place them inside ``ReplicatedStorage`` or ``ServerStorage``
 __Note:__ Make sure to have ``Subscription.lua`` and ``Listener.lua`` parented to ``RobloxServerBridge.lua``
 
 ## Getting Started
