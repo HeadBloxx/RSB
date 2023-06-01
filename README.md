@@ -123,17 +123,90 @@ Although ``Identifiers`` prove more valuable in complex scenarios, I've chosen t
 
 ## API Reference
 
+### Listener Class
+
+```lua
+ListenerModule.New ( Identifier: any, DestroyedOnCallback: boolean, Callback: ( Payload ) -> nil ): Listener
+```
+
+This creates and returns a new ``Listener`` instance.
+
+Listeners listen for request **responses** from servers.
+
+| Parameter    | Type   | Description                  | Default |
+|--------------|--------|------------------------------|---------|
+| Identifier        | any   | The ``Identifier`` that identifies the response it's listening for          | nil    |
+| DestroyedOnCallback   | boolean | Determines whether or not the listener will be destroyed when it picks up a response| nil   |
+| Callback   | function | The function that will handle the ``result``         | nil   |
+
+Response body ( ``Result`` being the return value of the ``Process`` function. ) :
+```lua
+{
+			
+	Result     = Result.Response,
+	Identifier = Result.Identifier,
+	JobId      = game.JobId,
+			
+}
+```
+
+**Returns**: ``Listener``
+
 ### Subscription Class
 
 ```lua
-Subscription.New ( Topic: string, Process: ( Payload ) -> any ): Subscription
+SubscriptionModule.New ( Topic: string, Process: ( Payload ) -> any ): Subscription
 ```
 
 This creates and returns a new ``Subscription`` instance. 
 
 | Parameter    | Type   | Description                  | Default |
 |--------------|--------|------------------------------|---------|
-| parameter1   | int    | The first parameter          | None    |
-| parameter2   | string | The second parameter         | "abc"   |
+| Topic        | string   | The ``topic`` that will be used for ``MessagingService``          | nil    |
+| Process   | function | The function that will handle the ``response``         | nil   |
 
-**Returns**: The result of the operation.
+**Returns**: ``any``
+
+__Note:__ This function creates *two* subscriptions to ``MessagingService``
+
+```lua
+Subscription:SendRequest ( Message: any, Identifier: any )
+```
+
+This sends a request to all servers with it's ``Topic``. 
+
+| Parameter    | Type   | Description                  | Default |
+|--------------|--------|------------------------------|---------|
+| Message        | any   | The ``message`` that will be sent for with the request          | nil   |
+| Identifier   | any | The ``Identifier`` used to identify this particular request         | nil   |
+
+Request body:
+```lua
+{
+	Identifier = Identifier,
+	Message    = Message,
+	JobId      = game.JobId
+}
+```
+
+**Returns**: ``nil``
+
+```lua
+Subscription:AddListener ( NewListener: Listener )
+```
+
+This creates and returns a new ``Subscription`` instance. 
+
+| Parameter    | Type   | Description                  | Default |
+|--------------|--------|------------------------------|---------|
+| NewListener        | Listener   | The ``Listener`` to be appointed to the ``subscription``          | nil    |
+
+**Returns**: ``nil``
+
+```lua
+Subscription:Unsubscribe ()
+```
+
+Deletes the ``Subscription`` instance, disconnecting from both subscriptions to ``MessagingService``
+
+**Returns**: ``nil``
