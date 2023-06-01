@@ -124,7 +124,7 @@ Although ``Identifiers`` prove more valuable in complex scenarios, I've chosen t
 
 Here's a rough diagram demonstrating the architecture:
 
-![RSB Diagram_1](https://github.com/HeadBloxx/RSB/assets/85369300/21c8c8c5-3b4a-4821-9f73-1c8bce444d24)
+![RSB Diagram_2](https://github.com/HeadBloxx/RSB/assets/85369300/34a798ac-8d95-490e-87d6-41b2305e429c)
 
 ### Listener Class
 
