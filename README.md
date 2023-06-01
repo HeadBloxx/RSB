@@ -19,7 +19,7 @@ There are __two__ main ways of installing this module.
 1. You can get it from the Marketplace, and just insert it into ``ReplicatedStorage`` or ``ServerStorage``, or
 2. You can install the ``.rbxm`` or the ``.rbxl``, and go on from there
 
-Make sure to have ``Subscription.lua`` and ``Listener.lua`` parented to ``CrossServerRemoteFunction.lua``
+Make sure to have ``Subscription.lua`` and ``Listener.lua`` parented to ``RobloxServerBridge.lua``
 
 ## Getting Started
 
@@ -29,7 +29,7 @@ Let's write some code that will allow us to get the ``UserId`` of a player in an
 2. Create a ``Script`` inside of ``ServerScriptService``
 3. Require the module
 ```lua
-local CSRF = require ( PATH_TO )
+local RSB = require ( PATH_TO )
 ``` 
 4. Create your ``Listener``
 
@@ -37,7 +37,7 @@ local CSRF = require ( PATH_TO )
 - The second parameter determines whether or not the listener will be destroyed once it picks up the response.</br>
 - The third parameter is the ``Callback``. It's the function that's called when the listener picks up on a response, with a passed parameter containing the ``Payload`` of the message from the server to which the request was sent. To view the ``UserId`` of the player we're interested in, we will print out the ``Result``.
 ```lua
-local CSRF = require ( PATH_TO )
+local RSB = require ( PATH_TO )
 
 local Listener = CSRF.NewListener ( "GetIDForHeadBloxx", true, function ( Payload )
 
@@ -50,7 +50,7 @@ end)
 - The second parameter is the ``Process``. A ``Process`` is a ``function`` that will be executed when the server receives a request, with a passed parameter containing the ``Payload`` of the request. It has to return a table consisting of ``Response`` and ``Identifier``, ``Response`` being the response to the request, and ``Identifier`` being the same ``Identifier`` which is inside the Payload.
 
 ```lua
-local CSRF = require ( PATH_TO )
+local RSB = require ( PATH_TO )
 
 local Listener = CSRF.NewListener ( "GetIDForHeadBloxx", true, function ( Payload )
 
@@ -70,7 +70,7 @@ end)
 6. Add the ``Listener`` we've created to the ``Subscription``
 
 ```lua
-local CSRF = require ( PATH_TO )
+local RSB = require ( PATH_TO )
 
 local Listener = CSRF.NewListener ( "GetIDForHeadBloxx", true, function ( Payload )
 
@@ -93,7 +93,7 @@ Subscription:AddListener ( Listener )
 
 We'll be connecting the request sending line to a ``BindableEvent`` inside of ``ReplicatedStorage``
 ```lua
-local CSRF = require ( PATH_TO )
+local RSB = require ( PATH_TO )
 
 local Listener = CSRF.NewListener ( "GetIDForHeadBloxx", true, function ( Payload )
 
@@ -123,4 +123,17 @@ Although ``Identifiers`` prove more valuable in complex scenarios, I've chosen t
 
 ## API Reference
 
+### Subscription Class
 
+```lua
+Subscription.New ( Topic: string, Process: ( Payload ) -> any ): Subscription
+```
+
+This creates and returns a new ``Subscription`` instance. 
+
+| Parameter    | Type   | Description                  | Default |
+|--------------|--------|------------------------------|---------|
+| parameter1   | int    | The first parameter          | None    |
+| parameter2   | string | The second parameter         | "abc"   |
+
+**Returns**: The result of the operation.
