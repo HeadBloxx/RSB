@@ -16,6 +16,8 @@ Whether you're building massive multiplayer games, collaborative projects, or in
 ___Before proceeding you should familiarize yourself with:___</br></br>
 [MessagingService](https://create.roblox.com/docs/reference/engine/classes/MessagingService)
 
+If you have any questions or concerns -> HeadBloxx#8939
+
 ## Installation
 
 Make sure to have ``Subscription.lua`` and ``Listener.lua`` parented to ``RobloxServerBridge.lua``
