@@ -59,11 +59,6 @@ function SubscriptionModule.New ( Topic: string, Process: ( Payload ) -> any ): 
 	self.ResponseSenderConnection = MessagingService:SubscribeAsync ( self.Topic, function ( Payload: Payload )
 		
 		if JobIdIsSame ( Payload ) then return end
-
-		for i, v in pairs ( Payload.Data ) do
-			
-			print(i, v)
-		end
 		
 		local Result = self.Process ( Payload )
 		
@@ -86,11 +81,6 @@ function SubscriptionModule.New ( Topic: string, Process: ( Payload ) -> any ): 
 		local ToRemove = {}
 		
 		for _, listener: Listener in pairs ( self.Listeners ) do
-			
-			for i, v in pairs ( Payload.Data ) do
-				
-				print(i, v)
-			end 
 			
 			if listener.Identifier ~= Payload.Data.Identifier then continue end
 			
@@ -121,14 +111,14 @@ function SubscriptionModule:AddListener ( NewListener: Listener )
 	table.insert ( self.Listeners, NewListener )
 end
 
-function SubscriptionModule:Unsubscribe (  )
+function SubscriptionModule:Unsubscribe ()
 	
 	self.ResponseSenderConnection  :Disconnect ()
 	self.ResponseListenerConnection:Disconnect ()
 	
 	for i, v in pairs ( self ) do
 		
-		self[i] = nil
+		self[ i ] = nil
 	end
 	
 	table.freeze ( self )
