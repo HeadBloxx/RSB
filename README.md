@@ -1,6 +1,8 @@
 # Roblox Server Bridge
 Documentation and API Reference for Roblox Server Bridge ( RSB )
 
+[Devforum](https://devforum.roblox.com/t/roblox-server-bridge/2401142)
+
 If you have any questions or concerns -> HeadBloxx#8939
 
 ## Introduction
