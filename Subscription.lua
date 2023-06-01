@@ -3,6 +3,10 @@ SubscriptionModule.__index = SubscriptionModule
 
 local MessagingService = game:GetService ( "MessagingService" )
 
+--// CONFIG
+local SameServerResponsesAllowed: boolean = false
+--//
+
 local ResponseSuffix: string = "_response"
 
 type Listener = {
@@ -39,8 +43,6 @@ type Subscription = {
 	ResponseListenerConnection: RBXScriptConnection
 	
 }
-
-local SameServerResponsesAllowed: boolean = script:GetAttribute ( "SameServerResponsesAllowed" )
 
 function SubscriptionModule.New ( Topic: string, Process: ( Payload ) -> any ): Subscription
 	local self: Subscription = {}
