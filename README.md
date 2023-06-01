@@ -213,3 +213,7 @@ Subscription:Unsubscribe ()
 Deletes the ``Subscription`` instance, disconnecting from both subscriptions to ``MessagingService``
 
 **Returns**: ``nil``
+
+## Configuration
+
+
