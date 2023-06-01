@@ -13,11 +13,10 @@ RSB simplifies the process of data retrieval and exchange, abstracting the compl
 
 Whether you're building massive multiplayer games, collaborative projects, or intricate interconnected worlds, RSB is the essential tool that empowers your Roblox creations to transcend the limitations of individual servers. Experience the power of seamless data transfer and unleash the true potential of your Roblox projects with RSB - the ultimate Roblox Server Bridge.
 
-## Installation
+___Before proceeding you should familiarize yourself with:___</br></br>
+[MessagingService](https://create.roblox.com/docs/reference/engine/classes/MessagingService)
 
-There are __two__ main ways of installing this module.
-1. You can get it from the Marketplace, and just insert it into ``ReplicatedStorage`` or ``ServerStorage``, or
-2. You can install the ``.rbxm`` or the ``.rbxl``, and go on from there
+## Installation
 
 Make sure to have ``Subscription.lua`` and ``Listener.lua`` parented to ``RobloxServerBridge.lua``
 
