@@ -20,7 +20,8 @@ ___Before proceeding you should familiarize yourself with:___</br></br>
 
 ## Installation
 
-Make sure to have ``Subscription.lua`` and ``Listener.lua`` parented to ``RobloxServerBridge.lua``
+Download the ``RobloxServerBridge.rbxm`` and drag it into your studio window. You should preferrably place them inside ``ReplicatedStorage`` or ``ServerStorage``
+__Note:__ Make sure to have ``Subscription.lua`` and ``Listener.lua`` parented to ``RobloxServerBridge.lua``
 
 ## Getting Started
 
@@ -219,3 +220,16 @@ Deletes the ``Subscription`` instance, disconnecting from both subscriptions to 
 ## Configuration
 
 The ``SameServerResponsesAllowed`` variable inside ``Subscription.lua`` determines whether or not one server can send a request or response to itself.
+
+
+## FAQ:
+
+#### How do I test this?
+The way I tested it was a bit unorthodox.
+1. You want to publish your game
+2. Make the maximum server size 1
+3. Use Multiple Roblox to run two instances of the roblox client
+4. Test your code!
+
+#### How do I report a bug or request a new feature?
+I'm the most active on discord -> HeadBloxx#8939
