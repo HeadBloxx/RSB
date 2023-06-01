@@ -45,7 +45,7 @@ local RSB = require ( PATH_TO )
 ```lua
 local RSB = require ( PATH_TO )
 
-local Listener = CSRF.NewListener ( "GetIDForHeadBloxx", true, function ( Payload )
+local Listener = RSB.NewListener ( "GetIDForHeadBloxx", true, function ( Payload )
 
     print ( Payload.Data.Result )
 end)
@@ -58,12 +58,12 @@ end)
 ```lua
 local RSB = require ( PATH_TO )
 
-local Listener = CSRF.NewListener ( "GetIDForHeadBloxx", true, function ( Payload )
+local Listener = RSB.NewListener ( "GetIDForHeadBloxx", true, function ( Payload )
 
     print ( Payload.Data.Result )
 end)
 
-local Subscription = CrossServerRemoteFunction.NewSubscription ( "Test", function ( Payload )
+local Subscription = RSB.NewSubscription ( "Test", function ( Payload )
 	
 	local Name: string = Payload.Data.Message
 	
@@ -78,12 +78,12 @@ end)
 ```lua
 local RSB = require ( PATH_TO )
 
-local Listener = CSRF.NewListener ( "GetIDForHeadBloxx", true, function ( Payload )
+local Listener = RSB.NewListener ( "GetIDForHeadBloxx", true, function ( Payload )
 
     print ( Payload.Data.Result )
 end)
 
-local Subscription = CrossServerRemoteFunction.NewSubscription ( "Test", function ( Payload )
+local Subscription = RSB.NewSubscription ( "Test", function ( Payload )
 	
 	local Name: string = Payload.Data.Message
 	
@@ -101,12 +101,12 @@ We'll be connecting the request sending line to a ``BindableEvent`` inside of ``
 ```lua
 local RSB = require ( PATH_TO )
 
-local Listener = CSRF.NewListener ( "GetIDForHeadBloxx", true, function ( Payload )
+local Listener = RSB.NewListener ( "GetIDForHeadBloxx", true, function ( Payload )
 
     print ( Payload.Data.Result )
 end)
 
-local Subscription = CrossServerRemoteFunction.NewSubscription ( "Test", function ( Payload )
+local Subscription = RSB.NewSubscription ( "Test", function ( Payload )
 	
 	local Name: string = Payload.Data.Message
 	
