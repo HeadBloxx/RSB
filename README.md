@@ -171,7 +171,7 @@ This creates and returns a new ``Subscription`` instance.
 | Topic        | string   | The ``topic`` that will be used for ``MessagingService``          | nil    |
 | Process   | function | The function that will handle the ``response``         | nil   |
 
-**Returns**: ``any``
+**Returns**: ``Subscription``
 
 __Note:__ This function creates *two* subscriptions to ``MessagingService``
 
