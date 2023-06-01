@@ -3,10 +3,6 @@ SubscriptionModule.__index = SubscriptionModule
 
 local MessagingService = game:GetService ( "MessagingService" )
 
---// CONFIG
-local SameServerResponsesAllowed: boolean = false
---//
-
 local ResponseSuffix: string = "_response"
 
 type Listener = {
@@ -44,6 +40,8 @@ type Subscription = {
 	
 }
 
+local SameServerResponsesAllowed: boolean = script:GetAttribute ( "SameServerResponsesAllowed" )
+
 function SubscriptionModule.New ( Topic: string, Process: ( Payload ) -> any ): Subscription
 	local self: Subscription = {}
 	setmetatable ( self, SubscriptionModule )
@@ -57,7 +55,7 @@ function SubscriptionModule.New ( Topic: string, Process: ( Payload ) -> any ): 
 		return game.JobId == Payload.Data.JobId and not SameServerResponsesAllowed
 	end
 	
-	-- response sender
+	-- request receiver
 	self.ResponseSenderConnection = MessagingService:SubscribeAsync ( self.Topic, function ( Payload: Payload )
 		
 		if JobIdIsSame ( Payload ) then return end
@@ -120,7 +118,7 @@ function SubscriptionModule:Unsubscribe ()
 	
 	for i, v in pairs ( self ) do
 		
-		self[ i ] = nil
+		self[i] = nil
 	end
 	
 	table.freeze ( self )
