@@ -7,6 +7,8 @@ If you have any questions or concerns -> HeadBloxx#8939
 
 ## Introduction
 
+**TL;DR:**  RSB allows developers to send cross-server requests, and receive a response from the other server(s).
+
 RSB (Roblox Server Bridge) is a versatile and powerful module designed to seamlessly connect and exchange data between different Roblox servers. Acting as a robust bridge, RSB enables efficient communication and information retrieval across server boundaries, unlocking a whole new level of flexibility and functionality within your Roblox experiences.
 
 With RSB, developers can effortlessly tap into the wealth of data scattered across various Roblox servers, streamlining access to critical information. Whether you need to retrieve player statistics, synchronize game progress, or facilitate cross-server interactions, RSB serves as the reliable conduit to bridge the gaps between servers.
