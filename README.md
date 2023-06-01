@@ -1,6 +1,8 @@
 # Roblox Server Bridge
 Documentation and API Reference for Roblox Server Bridge ( RSB )
 
+If you have any questions or concerns -> HeadBloxx#8939
+
 ## Introduction
 
 RSB (Roblox Server Bridge) is a versatile and powerful module designed to seamlessly connect and exchange data between different Roblox servers. Acting as a robust bridge, RSB enables efficient communication and information retrieval across server boundaries, unlocking a whole new level of flexibility and functionality within your Roblox experiences.
@@ -15,8 +17,6 @@ Whether you're building massive multiplayer games, collaborative projects, or in
 
 ___Before proceeding you should familiarize yourself with:___</br></br>
 [MessagingService](https://create.roblox.com/docs/reference/engine/classes/MessagingService)
-
-If you have any questions or concerns -> HeadBloxx#8939
 
 ## Installation
 
