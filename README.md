@@ -216,4 +216,4 @@ Deletes the ``Subscription`` instance, disconnecting from both subscriptions to 
 
 ## Configuration
 
-
+The ``SameServerResponsesAllowed`` variable inside ``Subscription.lua`` determines whether or not one server can send a request or response to itself.
