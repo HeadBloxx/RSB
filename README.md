@@ -1,9 +1,17 @@
-# CrossServerRemoteFunction
-Documentation and API Reference for CrossServerRemoteFunction ( CSRF )
+# Roblox Server Bridge
+Documentation and API Reference for Roblox Server Bridge ( RSB )
 
 ## Introduction
 
-CSRF is a light-weight module that allows developers to send requests from a server to other servers, and to receive a response.
+RSB (Roblox Server Bridge) is a versatile and powerful module designed to seamlessly connect and exchange data between different Roblox servers. Acting as a robust bridge, RSB enables efficient communication and information retrieval across server boundaries, unlocking a whole new level of flexibility and functionality within your Roblox experiences.
+
+With RSB, developers can effortlessly tap into the wealth of data scattered across various Roblox servers, streamlining access to critical information. Whether you need to retrieve player statistics, synchronize game progress, or facilitate cross-server interactions, RSB serves as the reliable conduit to bridge the gaps between servers.
+
+This dynamic module empowers developers to create immersive and interconnected experiences by leveraging the power of multiple servers. By integrating RSB into your Roblox projects, you can harness the full potential of distributed server architecture, enabling seamless collaboration, data sharing, and real-time updates.
+
+RSB simplifies the process of data retrieval and exchange, abstracting the complexities of server communication behind an intuitive and developer-friendly interface. It handles the intricate tasks of data synchronization, caching, and security, allowing you to focus on crafting engaging gameplay experiences without worrying about the underlying server infrastructure.
+
+Whether you're building massive multiplayer games, collaborative projects, or intricate interconnected worlds, RSB is the essential tool that empowers your Roblox creations to transcend the limitations of individual servers. Experience the power of seamless data transfer and unleash the true potential of your Roblox projects with RSB - the ultimate Roblox Server Bridge.
 
 ## Installation
 
