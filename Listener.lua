@@ -1,5 +1,5 @@
 local ListenerModule = {}
-ListenerModule.__index = LiListenerModulestener
+ListenerModule.__index = ListenerModulestener
 
 type Listener = {
 
