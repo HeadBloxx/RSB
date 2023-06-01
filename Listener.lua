@@ -16,14 +16,6 @@ type Payload = {
 
 }
 
-type ProcessResult = {
-
-	JobId     : string,
-	Result    : any,
-	Identifier: any,
-
-}
-
 
 -- The result is in Payload.Data.Result
 function ListenerModule.New ( Identifier: any, DestroyedOnCallback: boolean, Callback: ( Payload ) -> nil ): Listener
