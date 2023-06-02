@@ -2,8 +2,25 @@ local SubscriptionModule = {}
 SubscriptionModule.__index = SubscriptionModule
 
 local MessagingService = game:GetService ( "MessagingService" )
+local MemoryStore      = game:GetService ( "MemoryStoreService" )
 
 local ResponseSuffix: string = "_response"
+
+-- // Config
+
+local SameServerResponsesAllowed: boolean = false
+local PollingTime               : number  = 60 -- I strongly suggest to not go under the 60 mark.
+
+-- //
+
+--|| DO NOT EDIT ANYTHING PAST THIS LINE UNLESS YOU KNOW WHAT YOU'RE DOING ||--
+
+local ExpirationTime            : number  = PollingTime * 2
+
+local ResponsesMap = MemoryStore:GetSortedMap ( "Responses" )
+local RequestsMap  = MemoryStore:GetSortedMap ( "Requests"  )
+
+local Callbacks = {}
 
 type Listener = {
 
@@ -22,9 +39,10 @@ type Payload = {
 
 type ProcessResult = {
 	
-	JobId     : string,
-	Result    : { Response: any, Identifier: any },
-	Identifier: any,
+	JobId           : string,
+	Result          : { Response: any, Identifier: any },
+	Identifier      : string,
+	JobIDToRespondTo: string
 	
 }
 
@@ -36,11 +54,26 @@ type Subscription = {
 	SendRequest               : ( self: Subscription, Message: any, Identifier: any ) -> nil,
 	AddListener               : ( self: Subscription, Listener: Listener )            -> nil,
 	ResponseSenderConnection  : RBXScriptConnection,
-	ResponseListenerConnection: RBXScriptConnection
+	ResponseListenerConnection: RBXScriptConnection,
+	IsHandlingResponse        : boolean,
 	
 }
 
-local SameServerResponsesAllowed: boolean = script:GetAttribute ( "SameServerResponsesAllowed" )
+task.spawn ( function ()
+	-- Polling
+
+	while task.wait ( PollingTime ) do
+
+		for Identifier: string, Callback: ( any ) -> nil in pairs ( Callbacks ) do
+			
+			local ResponseData = ResponsesMap:GetAsync ( Identifier )
+			
+			if not ResponseData then continue end
+				
+			task.spawn ( Callback, ResponseData )
+		end
+	end
+end)
 
 function SubscriptionModule.New ( Topic: string, Process: ( Payload ) -> any ): Subscription
 	local self: Subscription = {}
@@ -50,52 +83,73 @@ function SubscriptionModule.New ( Topic: string, Process: ( Payload ) -> any ): 
 	self.Process   = Process
 	self.Topic     = Topic
 	
-	local function JobIdIsSame ( Payload: Payload )
+	self.IsHandlingResponse = false
+	
+	local function JobIdIsSame ( JobID: string )
 		
-		return game.JobId == Payload.Data.JobId and not SameServerResponsesAllowed
+		return game.JobId == JobID and not SameServerResponsesAllowed
 	end
 	
 	-- request receiver
 	self.ResponseSenderConnection = MessagingService:SubscribeAsync ( self.Topic, function ( Payload: Payload )
 		
-		if JobIdIsSame ( Payload ) then return end
+		local Data = RequestsMap:GetAsync ( Payload.Data )
 		
-		local Result = self.Process ( Payload )
+		if JobIdIsSame ( Data.JobId ) then return end
 		
-		local ProcessResult: ProcessResult = {
+		task.spawn ( function ()
 			
-			Result     = Result.Response,
-			Identifier = Result.Identifier,
-			JobId      = game.JobId,
+			local FakePayload = { -- Sorry but I don't want to bother changing the docs lol
+				
+				Sent = Payload.Sent,
+				Data = Data
+				
+			}
 			
-		}
-		
-		MessagingService:PublishAsync ( self.Topic .. ResponseSuffix, ProcessResult )
+			local Result = self.Process ( FakePayload )
+			
+			local ProcessResult: ProcessResult = {
+
+				Result           = Result.Response,
+				Identifier       = Result.Identifier,
+				JobId            = game.JobId,
+				JobIDToRespondTo = FakePayload.Data.JobId
+
+			}
+
+			ResponsesMap:SetAsync ( Result.Identifier, ProcessResult, ExpirationTime )
+			MessagingService:PublishAsync ( self.Topic .. ResponseSuffix, Result.Identifier )
+		end)
 	end)
 	
 	-- response listener
 	self.ResponseListenerConnection = MessagingService:SubscribeAsync ( self.Topic .. ResponseSuffix, function ( Payload: Payload )
 		
-		if JobIdIsSame ( Payload ) then return end
+		local Response: ProcessResult = ResponsesMap:GetAsync ( Payload.Data )
+		
+		if JobIdIsSame ( Response.JobId ) then return end
+		
+		if game.JobId ~= Response.JobIDToRespondTo then return end -- This server did not make the request
 		
 		local ToRemove = {}
 		
+		self.IsHandlingResponse = true
+		
 		for _, listener: Listener in pairs ( self.Listeners ) do
 			
-			if listener.Identifier ~= Payload.Data.Identifier then continue end
+			if listener.Identifier ~= Response.Identifier then continue end
 			
-			listener.Callback ( Payload )
+			task.spawn ( listener.Callback, Response )
+			
+			ResponsesMap:RemoveAsync ( Response.Identifier )
 			
 			if listener.DestroyedOnCallback then
 				
-				table.insert ( ToRemove, table.find ( ToRemove, listener ) :: number )
+				self:RemoveListener ( Response.Identifier )
 			end
 		end
 		
-		for _, position: number in pairs ( ToRemove ) do
-			
-			table.remove ( self.Listeners, position )
-		end
+		self.IsHandlingResponse = false
 	end)
 	
 	return self
@@ -103,12 +157,43 @@ end
 
 function SubscriptionModule:SendRequest ( Message: any, Identifier: any )
 	
-	MessagingService:PublishAsync ( self.Topic, { Identifier = Identifier, Message = Message, JobId = game.JobId } )
+	local Data = { Identifier = tostring ( Identifier ), Message = Message, JobId = game.JobId }
+	
+	RequestsMap:SetAsync ( Identifier, Data, ExpirationTime )
+	MessagingService:PublishAsync ( self.Topic, Identifier )
 end
 
 function SubscriptionModule:AddListener ( NewListener: Listener )
 	
+	Callbacks[ NewListener.Identifier ] = NewListener.Callback
 	table.insert ( self.Listeners, NewListener )
+end
+
+function SubscriptionModule:RemoveListener ( Identifier: string )
+	
+	Callbacks[ Identifier ] = nil
+	
+	if not self.IsHandlingResponse then
+		
+		repeat task.wait () until self.IsHandlingResponse
+	end
+	
+	local ToRemove: number?
+	
+	for i, Listener: Listener in pairs ( self.Listeners ) do
+		
+		if Listener.Identifier == Identifier then
+			
+			ToRemove = i
+			break
+		end
+	end
+	
+	if ToRemove then
+		
+		table.remove ( self.Listeners, ToRemove )
+	end
+	
 end
 
 function SubscriptionModule:Unsubscribe ()
