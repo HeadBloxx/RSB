@@ -23,7 +23,7 @@ function ListenerModule.New ( Identifier: any, DestroyedOnCallback: boolean, Cal
 	local self: Listener = {}
 	setmetatable ( self, ListenerModule )
 	
-	self.Identifier          = Identifier
+	self.Identifier          = tostring ( Identifier )
 	self.DestroyedOnCallback = DestroyedOnCallback
 	self.Callback            = Callback
 	
