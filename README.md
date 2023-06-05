@@ -52,8 +52,8 @@ end)
 ```
 5. Create your ``Subscription``
 
-- The first parameter the ``Topic``
-- The second parameter is the ``Process``. A ``Process`` is a ``function`` that will be executed when the server receives a request, with a passed parameter containing the ``Payload`` of the request. It has to return a table consisting of ``Response``, ``Identifier``,,````being the response to the request, and ``Identifier`` being the same ``Identifier`` which is inside the Payload.
+- The first parameter is the ``Topic``
+- The second parameter is the ``Process``. A ``Process`` is a ``function`` that will be executed when the server receives a request, with a passed parameter containing the ``Payload`` of the request. It has to return a table consisting of ``Response``, ``Identifier``, and ``JobID``,``Response``being the response to the request, ``Identifier`` being the same ``Identifier`` which is inside the Payload, and ``JobID`` being the JobId of the server.
 
 ```lua
 local RSB = require ( PATH_TO )
@@ -150,14 +150,17 @@ Response body ( ``Result`` being the return value of the ``Process`` function. )
 ```lua
 {
 			
-	Result     = Result.Response,
-	Identifier = Result.Identifier,
-	JobId      = game.JobId,
+	Result           = Result.Response,
+	Identifier       = Result.Identifier,
+	JobId            = game.JobId,
+	JobIDToRespondTo = Payload.Data.JobId -- JobId of the requesting server
 			
 }
 ```
 
 **Returns**: ``Listener``
+
+__Note:__ The ``Identifier`` is stringified using ``tostring``.
 
 ### Subscription Class
 
@@ -202,11 +205,23 @@ Request body:
 Subscription:AddListener ( NewListener: Listener )
 ```
 
-This creates and returns a new ``Subscription`` instance. 
+This adds a listener to the subscription. 
 
 | Parameter    | Type   | Description                  | Default |
 |--------------|--------|------------------------------|---------|
 | NewListener        | Listener   | The ``Listener`` to be appointed to the ``subscription``          | nil    |
+
+**Returns**: ``nil``
+
+```lua
+Subscription:RemoveListener ( Identifier: string )
+```
+
+This adds a listener to the subscription. 
+
+| Parameter    | Type   | Description                  | Default |
+|--------------|--------|------------------------------|---------|
+| Identifer        | string   | The ``Identifier`` associated with the ``Listener`` to be removed         | nil    |
 
 **Returns**: ``nil``
 
