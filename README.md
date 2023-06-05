@@ -53,7 +53,7 @@ end)
 5. Create your ``Subscription``
 
 - The first parameter is the ``Topic``
-- The second parameter is the ``Process``. A ``Process`` is a ``function`` that will be executed when the server receives a request, with a passed parameter containing the ``Payload`` of the request. It has to return a table consisting of ``Response`` and ``Identifier``, ``Response`` being the response to the request, and ``Identifier`` being the same ``Identifier`` which is inside the Payload.
+- The second parameter is the ``Process``. A ``Process`` is a ``function`` that will be executed when the server receives a request, with a passed parameter containing the ``Payload`` of the request. It has to return a table consisting of ``Response``, ``Identifier``,,``Resase`` being the response to the request, and ``Identifier`` being the same ``Identifier`` which is inside the Payload.
 
 ```lua
 local RSB = require ( PATH_TO )
@@ -69,7 +69,8 @@ local Subscription = RSB.NewSubscription ( "Test", function ( Payload )
 	
 	return {
 		Response = game.Players:FindFirstChild ( Name ).UserId,
-		Identifier = Payload.Data.Identifier
+		Identifier = Payload.Data.Identifier,
+		JobID = game.JobId
 	}
 end)
 ```
