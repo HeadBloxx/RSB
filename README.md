@@ -90,7 +90,8 @@ local Subscription = RSB.NewSubscription ( "Test", function ( Payload )
 	
 	return {
 		Response = game.Players:FindFirstChild ( Name ).UserId,
-		Identifier = Payload.Data.Identifier
+		Identifier = Payload.Data.Identifier,
+		JobID = game.JobId
 	}
 end)
 
@@ -113,7 +114,8 @@ local Subscription = RSB.NewSubscription ( "Test", function ( Payload )
 	
 	return {
 		Response = game.Players:FindFirstChild ( Name ).UserId,
-		Identifier = Payload.Data.Identifier
+		Identifier = Payload.Data.Identifier,
+		JobID = game.JobId
 	}
 end)
 
