@@ -129,10 +129,6 @@ Although ``Identifiers`` prove more valuable in complex scenarios, I've chosen t
 
 ## API Reference
 
-Here's a rough diagram demonstrating the architecture:
-
-![RSB Diagram_2](https://github.com/HeadBloxx/RSB/assets/85369300/34a798ac-8d95-490e-87d6-41b2305e429c)
-
 ### Listener Class
 
 ```lua
