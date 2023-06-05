@@ -21,6 +21,7 @@ Whether you're building massive multiplayer games, collaborative projects, or in
 
 ___Before proceeding you should familiarize yourself with:___</br></br>
 [MessagingService](https://create.roblox.com/docs/reference/engine/classes/MessagingService)
+[MemoryService](https://create.roblox.com/docs/cloud-services/memorystores)
 
 ## Installation
 
