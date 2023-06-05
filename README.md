@@ -52,8 +52,8 @@ end)
 ```
 5. Create your ``Subscription``
 
-- The first parameter is the ``Topic``
-- The second parameter is the ``Process``. A ``Process`` is a ``function`` that will be executed when the server receives a request, with a passed parameter containing the ``Payload`` of the request. It has to return a table consisting of ``Response``, ``Identifier``,,``Resase`` being the response to the request, and ``Identifier`` being the same ``Identifier`` which is inside the Payload.
+- The first parameter the ``Topic``
+- The second parameter is the ``Process``. A ``Process`` is a ``function`` that will be executed when the server receives a request, with a passed parameter containing the ``Payload`` of the request. It has to return a table consisting of ``Response``, ``Identifier``,,````being the response to the request, and ``Identifier`` being the same ``Identifier`` which is inside the Payload.
 
 ```lua
 local RSB = require ( PATH_TO )
