@@ -118,7 +118,14 @@ function SubscriptionModule.New ( Topic: string, Process: ( Payload ) -> any ): 
 			}
 
 			ResponsesMap:SetAsync ( Result.Identifier, ProcessResult, ExpirationTime )
-			MessagingService:PublishAsync ( self.Topic .. ResponseSuffix, Result.Identifier )
+
+			local Success, Error = pcall(function()
+				MessagingService:PublishAsync ( self.Topic .. ResponseSuffix, Result.Identifier )
+			end)
+
+			if Error then
+				self.Queue[#self.Queue + 1] = ProcessResult
+			end
 		end)
 	end)
 	
@@ -155,12 +162,49 @@ function SubscriptionModule.New ( Topic: string, Process: ( Payload ) -> any ): 
 	return self
 end
 
+function SubscriptionModule:SendQueue()
+	local Coroutine = coroutine.create(function()
+		while task.wait(10) do -- while loop :skull:
+			for Index, Data in self.Queue do
+				if Data["JobIDToRespondTo"] ~= nil then
+					local Success, Error = pcall(function()
+						RequestsMap:SetAsync ( Data.Identifier, Data, ExpirationTime )
+						MessagingService:PublishAsync ( self.Topic .. ResponseSuffix, Data.Identifier )
+					end)
+
+					if Success then
+						table.remove(self.Queue, Index)
+					end
+				else
+					local Success, Error = pcall(function()
+						RequestsMap:SetAsync ( Data.Identifier, Data, ExpirationTime )
+						MessagingService:PublishAsync ( self.Topic, Data.Identifier )
+					end)
+
+					if Success then
+						table.remove(self.Queue, Index)
+					end
+				end
+			end
+		end
+	end)
+	
+	coroutine.resume(Coroutine)
+end
+
 function SubscriptionModule:SendRequest ( Message: any, Identifier: any )
 	
 	local Data = { Identifier = tostring ( Identifier ), Message = Message, JobId = game.JobId }
 	
 	RequestsMap:SetAsync ( Identifier, Data, ExpirationTime )
-	MessagingService:PublishAsync ( self.Topic, Identifier )
+	
+	local Success, Error = pcall(function()
+		MessagingService:PublishAsync ( self.Topic, Identifier )
+	end)
+	
+	if Error then
+		self.Queue[#self.Queue + 1] = Data
+	end
 end
 
 function SubscriptionModule:AddListener ( NewListener: Listener )
